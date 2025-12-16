@@ -6,8 +6,9 @@ import io.github.cdimascio.dotenv.dotenv
 import org.jetbrains.exposed.sql.Database
 
 object DatabaseFactory {
+    val dotenv = dotenv()
+
     fun connect() {
-        val dotenv = dotenv()
         val databaseUrl = dotenv["DATABASE_URL"]
 
         val config = HikariConfig().apply {
