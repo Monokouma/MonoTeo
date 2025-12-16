@@ -35,6 +35,8 @@ dependencies {
 
     implementation("ch.qos.logback:logback-classic:1.5.13")
 
+    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
 
     implementation("com.zaxxer:HikariCP:5.1.0")
@@ -49,5 +51,5 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(23)
+    jvmToolchain(21)
 }
