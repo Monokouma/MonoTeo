@@ -3,6 +3,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.20"
     application
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("org.jetbrains.kotlinx.kover") version "0.9.1"
 }
 
 group = "com.despaircorp"
@@ -14,6 +15,12 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+
+    testImplementation("io.mockk:mockk:1.13.13")
+    testImplementation("com.willowtreeapps.assertk:assertk:0.28.1")
+    testImplementation("app.cash.turbine:turbine:1.2.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
 
     implementation("io.ktor:ktor-server-core:2.3.7")
     implementation("io.ktor:ktor-server-netty:2.3.7")
@@ -46,10 +53,34 @@ application {
     mainClass.set("com.despaircorp.ApplicationKt")
 }
 
+
+
 tasks.test {
     useJUnitPlatform()
+
 }
 
 kotlin {
     jvmToolchain(21)
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                classes(
+                    "*.BuildConfig",
+                    "*.di.*",
+                    "Application.kt",
+
+                    )
+            }
+        }
+
+        verify {
+            rule {
+                minBound(80)
+            }
+        }
+    }
 }
