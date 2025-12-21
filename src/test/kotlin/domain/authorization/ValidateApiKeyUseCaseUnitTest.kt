@@ -9,8 +9,7 @@ import assertk.assertions.prop
 import com.despaircorp.data.authorization.AuthorizationRepositoryImpl
 import com.despaircorp.domain.authorization.AuthorizationRepository
 import com.despaircorp.domain.authorization.ValidateApiKeyUseCase
-import com.despaircorp.domain.authorization.model.RequestApiKeyException
-import com.despaircorp.domain.authorization.model.ValidateApiKeyErrorEnum
+import com.despaircorp.domain.error_manager.ErrorManagerException
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -53,10 +52,7 @@ class ValidateApiKeyUseCaseUnitTest {
         every { repository.authorizeKey(API_KEY) } returns false
         val result = useCase.invoke(API_KEY)
 
-        assertThat(result)
-            .isFailure()
-            .isInstanceOf(RequestApiKeyException::class)
-            .hasMessage("Wrong token")
+        assertThat(result).isEqualTo(Result.success(false))
 
         verify {
             repository.authorizeKey(API_KEY)
@@ -71,7 +67,7 @@ class ValidateApiKeyUseCaseUnitTest {
 
         assertThat(result)
             .isFailure()
-            .isInstanceOf(RequestApiKeyException::class)
+            .isInstanceOf(ErrorManagerException::class)
             .hasMessage("No key")
     }
 
@@ -81,7 +77,7 @@ class ValidateApiKeyUseCaseUnitTest {
 
         assertThat(result)
             .isFailure()
-            .isInstanceOf(RequestApiKeyException::class)
+            .isInstanceOf(ErrorManagerException::class)
             .hasMessage("No key")
     }
 

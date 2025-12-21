@@ -1,16 +1,17 @@
-package com.despaircorp.domain.authorization.model
+package com.despaircorp.domain.error_manager
 
 import io.ktor.http.HttpStatusCode
 
-enum class ValidateApiKeyErrorEnum(
+enum class ErrorManager(
     val message: String,
     val statusCode: HttpStatusCode
 ) {
     WRONG_TOKEN("Wrong token", HttpStatusCode.Unauthorized),
     NO_KEY("No key", HttpStatusCode.NotFound),
+    REQUEST_ERROR("Request error", HttpStatusCode.BadRequest)
 }
 
-class RequestApiKeyException(val error: ValidateApiKeyErrorEnum) : Exception(error.message) {
+class ErrorManagerException(val error: ErrorManager) : Exception(error.message) {
     val statusCode: HttpStatusCode
         get() = error.statusCode
 }
