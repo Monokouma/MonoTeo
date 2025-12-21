@@ -10,7 +10,12 @@ import io.github.cdimascio.dotenv.dotenv
 import org.koin.dsl.module
 
 val dataModule = module {
-    val dotenv = dotenv()
+    single {
+        dotenv {
+            ignoreIfMissing = true
+            systemProperties = true
+        }
+    }
 
     single { MonoTeoLogger }
 
@@ -18,14 +23,14 @@ val dataModule = module {
 
     single<AuthorizationRepository> {
         AuthorizationRepositoryImpl(
-            dotenv = dotenv,
+            dotenv = get(),
         )
     }
 
     single<OpenWeatherRepository> {
         OpenWeatherRepositoryImpl(
             httpClient = get(),
-            dotenv = dotenv,
+            dotenv = get(),
         )
     }
 }

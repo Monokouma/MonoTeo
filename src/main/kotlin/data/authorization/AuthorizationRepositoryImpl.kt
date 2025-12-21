@@ -6,7 +6,7 @@ import io.github.cdimascio.dotenv.Dotenv
 import io.github.cdimascio.dotenv.dotenv
 
 class AuthorizationRepositoryImpl(
-        private val dotenv: Dotenv
+    private val dotenv: Dotenv
 ): AuthorizationRepository {
 
     override fun authorizeKey(key: String): Boolean = key == dotenv["API_KEY"]
