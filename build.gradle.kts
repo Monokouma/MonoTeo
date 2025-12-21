@@ -21,6 +21,9 @@ dependencies {
     testImplementation("app.cash.turbine:turbine:1.2.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    testImplementation("io.ktor:ktor-server-test-host:2.3.12")
+    testImplementation("io.ktor:ktor-client-content-negotiation:2.3.7")
+    testImplementation("io.ktor:ktor-client-mock:2.3.7")
 
     implementation("io.ktor:ktor-server-core:2.3.7")
     implementation("io.ktor:ktor-server-netty:2.3.7")
@@ -30,6 +33,8 @@ dependencies {
     implementation("io.ktor:ktor-client-cio:2.3.7")
     implementation("io.ktor:ktor-client-content-negotiation:2.3.7")
     implementation("io.ktor:ktor-server-call-logging:2.3.5")
+
+    implementation("ch.qos.logback:logback-classic:1.4.14")
 
     implementation("org.jetbrains.exposed:exposed-core:0.45.0")
     implementation("org.jetbrains.exposed:exposed-dao:0.45.0")
@@ -71,8 +76,11 @@ kover {
                 classes(
                     "*.BuildConfig",
                     "*.di.*",
-                    "Application.kt",
-
+                    "com.despaircorp.ApplicationKt",
+                    "com.despaircorp.data.factory.*",
+                    "com.despaircorp.utils.*",
+                    "com.despaircorp.domain.weather.WeatherSentenceGenerator",
+                    "com.despaircorp.presentation.*"
                     )
             }
         }

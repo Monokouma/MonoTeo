@@ -1,11 +1,12 @@
 package com.despaircorp.presentation
 
-import com.despaircorp.domain.authorization.ValidateApiKeyUseCase
-import com.despaircorp.domain.authorization.model.RequestApiKeyException
+import com.despaircorp.domain.error_manager.ErrorManagerException
+import com.despaircorp.domain.weather.ManageGetWeatherRequestUseCase
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.header
+import io.ktor.server.request.receiveMultipart
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondBytes
 import io.ktor.server.response.respondText
@@ -16,7 +17,7 @@ import org.koin.ktor.ext.inject
 import kotlin.getValue
 
 fun Route.getRoutes() {
-    val validateApiKeyUseCase: ValidateApiKeyUseCase by inject()
+    val manageGetWeatherRequestUseCase: ManageGetWeatherRequestUseCase by inject()
 
 
     get("/health") {
@@ -25,13 +26,14 @@ fun Route.getRoutes() {
 
     post("/get_weather") {
         val token = call.request.header("Authorization")
+        val multipart = call.receiveMultipart()
 
-        validateApiKeyUseCase(token)
+        manageGetWeatherRequestUseCase(token, multipart)
             .onSuccess { response ->
-                call.respond(HttpStatusCode.OK)
+                call.respond(HttpStatusCode.OK, response)
             }.onFailure { error ->
                 when (error) {
-                    is RequestApiKeyException -> call.respond(error.error.statusCode, error.error.message)
+                    is ErrorManagerException -> call.respond(error.error.statusCode, error.error.message)
                     else -> call.respond(HttpStatusCode.InternalServerError, "Unknown error")
                 }
         }
