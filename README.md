@@ -106,7 +106,7 @@ Voir [MonoTeoApp](https://github.com/Monokouma/MonoTeoApp) - Application Kotlin 
 
 ## 📄 Licence
 
-MIT License - Copyright (c) 2024 Monokouma
+MIT License - Copyright (c) 2025 Flac Inc
 
 ---
 
